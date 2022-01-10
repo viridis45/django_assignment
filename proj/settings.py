@@ -51,7 +51,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    # 'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -128,7 +128,7 @@ DATE_INPUT_FORMATS = ['%Y-%m-%d']
 
 STATIC_URL = '/static/'
 
-LOGIN_URL = '/usr/lgin/'
+LOGIN_URL = '/login/'
 
 
 # Default primary key field type

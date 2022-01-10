@@ -11,8 +11,8 @@
 {% endblock%}
 
 
-{% csrf_token %}
 <form action="{% url 'usr:entry' %}" method="POST" class='row g-4'>
+    {% csrf_token %}
         <div class="col">
             <label for="date_id" class="form-label">Date:
             <input type="text" onfocus="(this.type='date')" onblur="(this.type='text')" 
@@ -38,6 +38,7 @@
 <br>
 <a> total exp : {{ tot_exp }} </a>
 <form class="container-fluid">
+    {% csrf_token %}
     <div class="row">
         <table class="table table-bordered">
             <tr>

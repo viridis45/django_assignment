@@ -10,8 +10,9 @@
 {% endif%}
 {% endblock%}
 
-{% csrf_token %}
+
 <form method="POST" action="{% url 'usr:entry_put' ent.id %}">
+    {% csrf_token %}
     <div class="col">
         <label for="date_id" class="form-label">Date</label>
         <input value={{ent.date}} type="text" onfocus="(this.type='date')"
