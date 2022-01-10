@@ -13,6 +13,7 @@
 
 <div class="container col-lg-8">
 <form action="{% url 'usr:signup' %}" method="POST">
+    {% csrf_token %}
     <table class="table">
     <tr>
         <td>
