@@ -13,6 +13,7 @@ from .models import *
 
 import pdb
 
+
 class SignupView(View):
     def get(self, request):
         if request.user.is_authenticated:
@@ -68,7 +69,7 @@ class LoginView(View):
             else:
                 return TemplateResponse(request, 
                                         'login.html', 
-                                        {'messages':'Login failed.'}
+                                        {'messages' : 'Login failed.'}
                                         )
 
         except Exception as exp:
@@ -76,6 +77,7 @@ class LoginView(View):
                                     'login.html', 
                                     {'messages' : str(exp)}
                                     )
+
 
 class Signout(View):
     def get(self, request):
@@ -89,8 +91,8 @@ class Signout(View):
 class EntryView(View):
     def get(self, request):
         if request.user.is_authenticated:
-            entries = EntryModel.objects.filter(owner=request.user.username,
-                                                pre_delete=False)
+            entries = EntryModel.objects.filter(owner = request.user.username,
+                                                pre_delete = False)
             tot_exp = entries.aggregate(Sum('amount')).get('amount__sum', 0.00)
             return render(request, 
                         'entry.html', 
@@ -104,10 +106,10 @@ class EntryView(View):
     def post(self, request):
         try:
             if request.user.is_authenticated:
-                serializer=EntrySerializer(data=request.POST)
+                serializer=EntrySerializer(data = request.POST)
                 
-                if serializer.is_valid(raise_exception=True):
-                    serializer.save(owner=request.user)
+                if serializer.is_valid(raise_exception = True):
+                    serializer.save(owner = request.user)
                 return redirect(reverse('usr:entry'))
             else:
                 return TemplateResponse(request, 
@@ -125,7 +127,7 @@ class EntryView(View):
 class Deleteds(View):
     def get(self, request):
         if request.user.is_authenticated:
-            deleteds = EntryModel.objects.filter(owner=request.user.username).filter(pre_delete=True)
+            deleteds = EntryModel.objects.filter(owner = request.user.username).filter(pre_delete = True)
             return render(request, 
                         'entry_deleted.html', 
                         {'ent': deleteds}
@@ -135,10 +137,9 @@ class Deleteds(View):
             return redirect('usr:login')
 
 
-
 @login_required()
 def entry_get(request, entry_id):
-    entries = EntryModel.objects.get(id=entry_id)
+    entries = EntryModel.objects.get(id = entry_id)
     entries.date = entries.date.strftime('%Y-%m-%d')
     return TemplateResponse(request, 
                             'entry_edit.html', 
@@ -147,7 +148,7 @@ def entry_get(request, entry_id):
 
 @login_required()
 def entry_delete(request, entry_id):
-    entry = EntryModel.objects.get(pk=entry_id)
+    entry = EntryModel.objects.get(pk = entry_id)
     
     if request.user.username == entry.owner:
         if entry.pre_delete == True:
@@ -165,7 +166,7 @@ def entry_delete(request, entry_id):
 
 @login_required()
 def entry_revert(request, entry_id):
-    entry = EntryModel.objects.get(pk=entry_id)
+    entry = EntryModel.objects.get(pk = entry_id)
     if request.user.username == entry.owner:
         if entry.pre_delete == True:
             entry.pre_delete = False
@@ -182,11 +183,11 @@ def entry_revert(request, entry_id):
 def entry_put(request, entry_id):
     try:
         if request.method =='POST':
-            entry = EntryModel.objects.get(id=entry_id)
+            entry = EntryModel.objects.get(id = entry_id)
             if request.user.username == entry.owner:
                 serializer=EntrySerializer(entry, data=request.POST)
                 
-                if serializer.is_valid(raise_exception=True):
+                if serializer.is_valid(raise_exception = True):
                     serializer.save(owner=request.user.username)
                     return redirect(reverse('usr:entry'))
 
