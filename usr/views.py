@@ -16,8 +16,10 @@ import pdb
 class SignupView(View):
     def get(self, request):
         if request.user.is_authenticated:
-            return TemplateResponse(request, 'signup.html', 
-                                    {'messages' : 'Already logged in'})
+            return TemplateResponse(request, 
+                                    'signup.html', 
+                                    {'messages' : 'Already logged in'}
+                                    )
 
         return TemplateResponse(request, 'signup.html')
 
@@ -30,14 +32,21 @@ class SignupView(View):
             serializer = NewUserSerializer(data=user_data)
             if serializer.is_valid():
                 serializer.save()
-                return TemplateResponse(request, 'login.html')
+                return TemplateResponse(request, 
+                                        'login.html', 
+                                        {'messages' : 'Signup successful! Please proceed and login'}
+                                        )
             else:
-                return TemplateResponse(request, 'signup.html', 
-                                        {'messages' : 'Incorrect identification format.'})
+                return TemplateResponse(request, 
+                                        'signup.html', 
+                                        {'messages' : 'Incorrect identification format.'}
+                                        )
 
         except Exception as exp:
-            return TemplateResponse(request, 'signup.html', 
-                                    {'messages' : 'Signup failed.'})
+            return TemplateResponse(request, 
+                                    'signup.html', 
+                                    {'messages' : 'Signup failed.'}
+                                    )
 
 
 class LoginView(View):
@@ -57,12 +66,16 @@ class LoginView(View):
                 login(request, user)
                 return redirect('usr:entry')
             else:
-                return TemplateResponse(request, 'login.html', 
-                                        {'messages':'Login failed.'})
+                return TemplateResponse(request, 
+                                        'login.html', 
+                                        {'messages':'Login failed.'}
+                                        )
 
         except Exception as exp:
-            return TemplateResponse(request, 'login.html', 
-                                    {'messages' : exp})
+            return TemplateResponse(request, 
+                                    'login.html', 
+                                    {'messages' : str(exp)}
+                                    )
 
 class Signout(View):
     def get(self, request):
@@ -82,7 +95,8 @@ class EntryView(View):
             return render(request, 
                         'entry.html', 
                         {'ent' : entries, 
-                        'tot_exp': tot_exp})
+                        'tot_exp': tot_exp}
+                        )
             
         else:
             return redirect('usr:login')
@@ -96,20 +110,26 @@ class EntryView(View):
                     serializer.save(owner=request.user)
                 return redirect(reverse('usr:entry'))
             else:
-                return TemplateResponse(request, 'entry.html', 
-                                        {'messages' : 'User is not logged in.'})
+                return TemplateResponse(request, 
+                                        'entry.html', 
+                                        {'messages' : 'User is not logged in.'}
+                                        )
 
         except Exception as exp:
-            return TemplateResponse(request, 'entry.html', 
-                                    {'messages' : 'error.'})
+            return TemplateResponse(request, 
+                                    'entry.html', 
+                                    {'messages' : 'error.'}
+                                    )
 
 
 class Deleteds(View):
     def get(self, request):
         if request.user.is_authenticated:
             deleteds = EntryModel.objects.filter(owner=request.user.username).filter(pre_delete=True)
-            return render(request, 'entry_deleted.html', 
-                        {'ent': deleteds})
+            return render(request, 
+                        'entry_deleted.html', 
+                        {'ent': deleteds}
+                        )
 
         else:
             return redirect('usr:login')
@@ -120,8 +140,10 @@ class Deleteds(View):
 def entry_get(request, entry_id):
     entries = EntryModel.objects.get(id=entry_id)
     entries.date = entries.date.strftime('%Y-%m-%d')
-    return TemplateResponse(request, 'entry_edit.html', 
-                            {'ent' : entries})
+    return TemplateResponse(request, 
+                            'entry_edit.html', 
+                            {'ent' : entries}
+                            )
 
 @login_required()
 def entry_delete(request, entry_id):
@@ -136,8 +158,10 @@ def entry_delete(request, entry_id):
         return redirect(reverse('usr:entry'))
 
     else:
-        return TemplateResponse(request, 'entry.html', 
-                                {'messages' : 'Unauthorized.'})
+        return TemplateResponse(request, 
+                                'entry.html', 
+                                {'messages' : 'Unauthorized.'}
+                                )
 
 @login_required()
 def entry_revert(request, entry_id):
@@ -149,8 +173,10 @@ def entry_revert(request, entry_id):
         return redirect(reverse('usr:entry'))
 
     else:
-        return TemplateResponse(request, 'entry.html', 
-                                {'messages' : 'Unauthorized.'})
+        return TemplateResponse(request, 
+                                'entry.html', 
+                                {'messages' : 'Unauthorized.'}
+                                )
 
 @login_required()
 def entry_put(request, entry_id):
@@ -166,8 +192,10 @@ def entry_put(request, entry_id):
 
                 return HttpResponse('wrong format')
 
-            return TemplateResponse(request, 'entry.html', 
-                                    {'messages' : 'Unauthorized.'})
+            return TemplateResponse(request, 
+                                    'entry.html', 
+                                    {'messages' : 'Unauthorized.'}
+                                    )
 
     except Exception as exp:
         return HttpResponse(f'error: {exp}')
