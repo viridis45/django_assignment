@@ -85,7 +85,10 @@ class Signout(View):
             logout(request)
             return redirect('usr:login')
         else:
-            HttpResponse('user not logged in')
+            return TemplateResponse(request, 
+                        'login.html', 
+                        {'messages' : 'User is not logged in.'}
+                        )
 
 
 class EntryView(View):
@@ -101,7 +104,9 @@ class EntryView(View):
                         )
             
         else:
-            return redirect('usr:login')
+            return redirect('usr:login',
+                            {'messages' : 'User is not logged in.'}
+                            )
         
     def post(self, request):
         try:
@@ -134,7 +139,9 @@ class Deleteds(View):
                         )
 
         else:
-            return redirect('usr:login')
+            return redirect('usr:login',
+                            {'messages' : 'User is not logged in.'}
+                            )
 
 
 @login_required()

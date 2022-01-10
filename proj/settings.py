@@ -128,7 +128,7 @@ DATE_INPUT_FORMATS = ['%Y-%m-%d']
 
 STATIC_URL = '/static/'
 
-LOGIN_URL = '/usr/lgin/'
+LOGIN_URL = '/login/'
 
 
 # Default primary key field type
