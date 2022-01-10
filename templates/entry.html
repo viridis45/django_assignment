@@ -1,0 +1,63 @@
+{% extends 'base/base2.html' %}
+
+{% block content %}
+
+{% block messages%}
+{% if messages%}
+    <div class="alert">
+        {{ messages }}
+    </div>
+{% endif%}
+{% endblock%}
+
+
+{% csrf_token %}
+<form action="{% url 'usr:entry' %}" method="POST" class='row g-4'>
+        <div class="col">
+            <label for="date_id" class="form-label">Date:
+            <input type="text" onfocus="(this.type='date')" onblur="(this.type='text')" 
+            name="date" class="form-control" id="date_id" value={% now "Y-m-d" %}>
+            </label>
+        </div>
+        <div class="col">
+            <label for="entry_id" class="form-label">Entry
+            <input type="text" name="entry" class="form-control" id="entry_id" 
+            value='Entry' ></label>
+        </div>
+        <div class="col">
+            <label for="amount_id" class="form-label">Amount
+            <input type="number" name="amount" class="form-control" id="amount_id" 
+            value=2500 ></label>
+        </div>
+        <div class="col">
+            <input type="submit" class="btn btn-primary" value="Submit">
+        </div>
+</form>
+
+<a href="{% url 'usr:entry_deleteds' %}">Deleted Entries</a>
+<br>
+<a> total exp : {{ tot_exp }} </a>
+<form class="container-fluid">
+    <div class="row">
+        <table class="table table-bordered">
+            <tr>
+                <th width="10%">Date</th>
+                <th width="40%">Entry</th>
+                <th width="40%">Amount</th>
+                <th></th>
+                <th></th>
+            </tr>
+            {% for ents in ent %}
+            <tr>
+                <td width="10%">{{ents.date}}</td>
+                <td width="40%">{{ents.entry}}</td>
+                <td width="40%">{{ents.amount}}</td>
+                <td><a href="{% url 'usr:entry_get' ents.id %}">Details</a> </td>
+                <td><a href="{% url 'usr:entry_delete' ents.id %}">Delete</a> </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</form>
+
+{% endblock %}

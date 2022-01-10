@@ -1,0 +1,40 @@
+{% extends 'base/base2.html' %}
+
+
+{% block content %}
+
+{% block messages%}
+{% if messages%}
+    <div class="alert">
+        {{ messages }}
+    </div>
+{% endif%}
+{% endblock%}
+
+<div class="container col-lg-8">
+<form action="{% url 'usr:signup' %}" method="POST">
+    <table class="table">
+    <tr>
+        <td>
+        <label for="username_email_id" class="form-label">Email Address</label>
+        <input type="text" name="username" class="form-control" id="username_email_id" 
+        placeholder="New Email Address">
+        </td>
+    </tr>               
+    <tr>
+        <td>    
+        <label for="password_id" class="form-label">Password</label>
+        <input type="password" name="password" class="form-control" id="password_id" 
+        placeholder="New Password" >
+        </td>
+    </tr>
+    <tr>
+        <td>
+        <input type="submit" class="btn btn-primary" value="Signup">
+        </td>
+    </tr>
+</table>
+</form>
+</div>
+
+{% endblock %}

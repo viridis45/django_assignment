@@ -1,0 +1,40 @@
+{% extends 'base/base2.html' %}
+
+{% block content %}
+
+{% block messages%}
+{% if messages%}
+    <div class="alert">
+        {{ messages }}
+    </div>
+{% endif%}
+{% endblock%}
+
+{% csrf_token %}
+<form method="POST" action="{% url 'usr:entry_put' ent.id %}">
+    <div class="col">
+        <label for="date_id" class="form-label">Date</label>
+        <input value={{ent.date}} type="text" onfocus="(this.type='date')"
+        onblur="(this.type='text')" name="date" class="form-control" id="date_id" 
+        value={{ent.tdate}}>
+    </div>
+    <div class="col">
+        <label for="entry_id" class="form-label">Entry</label>
+        <input type="text" name="entry" class="form-control" id="entry_id" 
+        value={{ent.entry}} placeholder={{ent.entry}}>
+    </div>
+    <div class="col">
+        <label for="entry_body_id" class="form-label">Details</label>
+        <textarea type="text" name="entry_body" class="form-control" id="entry_body_id"
+        >{{ent.entry_body}} </textarea>
+    </div>
+    <div class="col">
+        <label for="amount_id" class="form-label">Amount</label>
+        <input type="number" name="amount" class="form-control" id="amount_id" 
+        value={{ent.amount}} placeholder={{ent.amount}}>
+    </div>
+    <div class="col">
+        <input type="submit" class="btn btn-primary" value="Submit">
+    </div>
+</form>
+{% endblock %}
